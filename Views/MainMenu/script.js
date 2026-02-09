@@ -1,3 +1,5 @@
 'use strict';
 
-document.querySelector('h1').innerText = 'lalalalala';
+export function init() {
+
+}
