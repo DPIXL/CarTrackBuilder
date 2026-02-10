@@ -13,5 +13,5 @@ async function loadView(viewName) {
     }
 }
 
-loadView('MainMenu');
+loadView('Editor');
 

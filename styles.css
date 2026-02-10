@@ -2,6 +2,8 @@ body {
     font-family: Arial;
     margin: 0;
     padding: 0;
+    background-color: #323232;
+    color: white;
 }
 
 .hidden {
@@ -17,15 +19,17 @@ header {
     flex-direction: row;
     justify-content: center;
     gap: 10px;
-    background: #323232;
+    background: #474747;
     padding: 6px;
+    border-radius: 1rem;
+    margin: 5px;
 }
 
 hr {
     border-style: solid;
 }
 
-.headerbutton {
+button {
     font-size: 24px;
     background: #ff3a31;
     font-weight: bold;
@@ -36,7 +40,7 @@ hr {
     transition: ease 0.3s;
 }
 
-.headerbutton:hover {
+button:hover {
     border-radius: 0.8rem;
     cursor: pointer;
     background: #ffffff;
@@ -45,7 +49,44 @@ hr {
 
 .editorcontainer {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 15px;
+}
+
+.buttoncontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.reset {
+    display: flex;
+    width: 60px;
+    height: 60px;
+    font-size: 18px;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.reset:hover {
+    .icon-mask {
+        background-color: #ff3a31;
+    }
+}
+
+.icon-mask {
+    width: 30px;
+    height: 30px;
+
+    background-color: white;
+
+    mask-image: url('img/reload.png');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+
+    transition: ease 0.3s;
 }
 
 .editor {
