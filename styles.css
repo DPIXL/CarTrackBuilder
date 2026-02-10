@@ -4,6 +4,10 @@ body {
     padding: 0;
 }
 
+.hidden {
+    display: none;
+}
+
 .content {
     margin: 8px;
 }
@@ -14,7 +18,7 @@ header {
     justify-content: center;
     gap: 10px;
     background: #323232;
-    padding: 10px;
+    padding: 6px;
 }
 
 hr {
@@ -26,32 +30,52 @@ hr {
     background: #ff3a31;
     font-weight: bold;
     color: white;
-    padding: 10px 15px;
+    padding: 5px 15px;
     border: none;
     border-radius: 1.5rem;
     transition: ease 0.3s;
 }
 
 .headerbutton:hover {
-    border-radius: 1rem;
+    border-radius: 0.8rem;
     cursor: pointer;
     background: #ffffff;
     color: #ff3a31;
 }
 
-#cell {
-    width: 50px;
-    height: 50px;
+.editorcontainer {
+    display: flex;
+    justify-content: space-around;
+}
+
+.editor {
+    display: grid;
+    gap: 1px;
+}
+
+.cell {
+    width: 45px;
+    height: 45px;
+
+    transition: ease 0.1s;
+}
+
+.cell:hover {
+    border-radius: 0.7rem;
+    cursor: pointer;
 }
 
 .grass {
-    background-color: green;
+    background: url('img/grass.png');
+    background-size: cover;
 }
 
 .road {
-    background-color: #5a5a5a;
+    background: url('img/road.png');
+    background-size: cover;
 }
 
 .water {
-    background-color: dodgerblue;
+    background: url('img/water.png');
+    background-size: cover;
 }
