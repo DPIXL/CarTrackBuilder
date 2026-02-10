@@ -57,9 +57,10 @@ button:hover {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    gap: 15px;
 }
 
-.reset {
+.squarebutt {
     display: flex;
     width: 60px;
     height: 60px;
@@ -69,7 +70,7 @@ button:hover {
     justify-content: center;
 }
 
-.reset:hover {
+.squarebutt:hover {
     .icon-mask {
         background-color: #ff3a31;
     }
@@ -87,6 +88,18 @@ button:hover {
     mask-position: center;
 
     transition: ease 0.3s;
+}
+
+.save {
+    .icon-mask {
+        mask-image: url('img/save.png');
+    }
+}
+
+.load {
+    .icon-mask {
+        mask-image: url('img/load.png');
+    }
 }
 
 .editor {
