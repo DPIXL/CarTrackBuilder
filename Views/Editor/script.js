@@ -1,24 +1,18 @@
 'use strict';
 
+import {getSavedTrackNames, getStorage} from "../../Modules/storage.js";
+
+
 const TYPE_CLASSES = ['grass', 'road', 'water'];
 
 let cellist = [];
 
+let currentTrackName;
+
 
 //UKLADANI
 
-const STORAGE_KEY = 'saves';
-
-function getStorage() {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : {};
-}
-
 function saveCurrentTrack(trackName) {
-    if (!trackName) {
-        alert("Please, choose a name for your track!");
-        return;
-    }
 
     const simpleCellist = cellist.map(row =>
         row.map(cell => cell.type)
@@ -28,7 +22,7 @@ function saveCurrentTrack(trackName) {
 
     db[trackName] = simpleCellist;
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+    localStorage.setItem('saves', JSON.stringify(db));
 }
 
 function loadTrackByName(trackName) {
@@ -52,31 +46,52 @@ function loadTrackByName(trackName) {
     });
 }
 
-function getSavedTrackNames() {
-    const db = getStorage();
-    return Object.keys(db);
-}
 
+export function init(trackName) {
 
-export function init() {
+    const headerbtn = document.querySelector('.editorb');
+
+    if(headerbtn.disabled === true) {
+        headerbtn.disabled = false;
+    }
+
+    document.querySelectorAll('.headerbutton').forEach((button) => {
+        button.classList.remove('buttonon');
+    });
+    document.querySelector('.editorb').classList.add('buttonon');
+
     const editor = document.querySelector('.editor');
     const reloadbutt = document.querySelector('.reset');
     const savebutt = document.querySelector('.save');
     const loadbutt = document.querySelector('.load');
+
+    if (trackName === undefined) {
+        trackName = JSON.parse(localStorage.getItem('lastTrack'));
+    }
+
+    localStorage.setItem('lastTrack', JSON.stringify(trackName));
+
+    currentTrackName = trackName;
+
+    document.querySelector('h1').innerText = currentTrackName;
 
     reloadbutt.addEventListener('click',() => {
         generate();
     })
 
     savebutt.addEventListener('click', () => {
-        saveCurrentTrack('default');
+        saveCurrentTrack(currentTrackName);
     })
 
     loadbutt.addEventListener('click', () => {
-        loadTrackByName('default');
+        loadTrackByName(currentTrackName);
     })
 
     generate();
+
+    if (getSavedTrackNames().includes(currentTrackName)) {
+        loadTrackByName(currentTrackName);
+    }
 
     editor.style.display = 'grid';
     editor.style.gridTemplateColumns = `repeat(${cellist[0].length}, 45px)`;
@@ -125,6 +140,21 @@ export function init() {
 
                 square.dataset.r = rowIndex;
                 square.dataset.c = colIndex;
+
+                let radius = '2rem';
+
+                if (rowIndex === 0 && colIndex === 0) {
+                    square.style.borderTopLeftRadius = radius;
+                }
+                if (rowIndex === cellist.length-1 && colIndex === 0) {
+                    square.style.borderBottomLeftRadius = radius;
+                }
+                if (rowIndex === 0 && colIndex === row.length-1) {
+                    square.style.borderTopRightRadius = radius;
+                }
+                if (rowIndex === cellist.length-1 && colIndex === row.length-1) {
+                    square.style.borderBottomRightRadius = radius;
+                }
 
                 editor.appendChild(square);
             });

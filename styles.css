@@ -2,8 +2,20 @@ body {
     font-family: Arial;
     margin: 0;
     padding: 0;
+    width: 100%;
+    height: 100vh;
     background-color: #323232;
     color: white;
+    background-image: url('img/spa.jpg');
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: ease 0.3s;
+}
+
+.blur {
+    backdrop-filter: blur(20px);
 }
 
 .hidden {
@@ -19,10 +31,11 @@ header {
     flex-direction: row;
     justify-content: center;
     gap: 10px;
-    background: #474747;
+    background: rgba(71,71,71,0.6);
     padding: 6px;
     border-radius: 1rem;
     margin: 5px;
+    transition: ease 0.3s;
 }
 
 hr {
@@ -38,18 +51,31 @@ button {
     border: none;
     border-radius: 1.5rem;
     transition: ease 0.3s;
+
+    width: fit-content;
 }
 
-button:hover {
+button:hover, .buttonon {
     border-radius: 0.8rem;
     cursor: pointer;
     background: #ffffff;
     color: #ff3a31;
 }
 
+button:disabled {
+    color: #cacaca;
+    background-color: #7e7e7e;
+}
+
+button:disabled:hover {
+    transition: none;
+    border-radius: 1.5rem;
+    cursor: default;
+}
+
 .editorcontainer {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 15px;
 }
 
@@ -58,6 +84,7 @@ button:hover {
     flex-direction: column;
     justify-content: flex-end;
     gap: 15px;
+    margin-bottom: 10px;
 }
 
 .squarebutt {
@@ -102,9 +129,17 @@ button:hover {
     }
 }
 
+.savetofile {
+    .icon-mask {
+        mask-image: url('img/savetofile.png');
+    }
+}
+
 .editor {
     display: grid;
     gap: 1px;
+
+    grid-column: 2;
 }
 
 .cell {
@@ -132,4 +167,92 @@ button:hover {
 .water {
     background: url('img/water.png');
     background-size: cover;
+}
+
+.menucontainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 99vw;
+    height: 75vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.menucontainer form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.menucontainer form > :first-child {
+    justify-self: end;
+}
+
+h1 {
+    color: #ff3a31;
+    padding: 5px 20px;
+    border-radius: 0.5rem;
+    background: rgba(71,71,71,0.6);
+    width: fit-content;
+    max-width: 100%;
+    word-break: break-all;
+    box-sizing: border-box;
+    text-wrap: wrap;
+}
+
+.anothercontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+select {
+    font-size: 24px;
+    font-weight: normal;
+    background: #ffffff;
+    color: #000000;
+    padding: 5px 15px;
+    border-radius: 0.8rem;
+    transition: ease 0.3s;
+    border:none;
+}
+
+select:hover {
+    border-radius: 1.5rem;
+    cursor: pointer;
+    background: #ffffff;
+}
+
+select:invalid {
+    color: #7e7e7e;
+}
+
+option {
+    color: black;
+}
+
+option:focus {
+    outline: none;
+}
+
+input {
+    font-size: 24px;
+    font-weight: normal;
+    background: #ffffff;
+    color: #000000;
+    padding: 5px 15px;
+    border-radius: 0.8rem;
+    border: none;
+    transition: ease 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-radius: 1.5rem;
+    background: #ffffff;
+}
+
+input::placeholder {
+    color: #7e7e7e;
 }
