@@ -135,6 +135,12 @@ button:disabled:hover {
     }
 }
 
+.loadfromfile {
+    .icon-mask {
+        mask-image: url('img/loadfile.png');
+    }
+}
+
 .editor {
     display: grid;
     gap: 1px;
