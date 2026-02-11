@@ -25,15 +25,8 @@ function saveCurrentTrack(trackName) {
     localStorage.setItem('saves', JSON.stringify(db));
 }
 
-function loadTrackByName(trackName) {
-    const db = getStorage();
-    const savedCellist = db[trackName];
-
-    if (!savedCellist) {
-        return;
-    }
-
-    savedCellist.forEach((row, r) => {
+function loadGridFromData(data) {
+    data.forEach((row, r) => {
         row.forEach((type, c) => {
             cellist[r][c].type = type;
 
@@ -44,6 +37,40 @@ function loadTrackByName(trackName) {
             div.classList.add(types[type]);
         });
     });
+}
+
+function loadTrackByName(trackName) {
+    const db = getStorage();
+    const savedCellist = db[trackName];
+
+    if (!savedCellist) {
+        return;
+    }
+
+    loadGridFromData(savedCellist);
+}
+
+function saveToFile() {
+    const fileName = `CarTrackBuilder_${currentTrackName}.json`;
+
+    const simpleGrid = cellist.map(row =>
+        row.map(cell => cell.type)
+    );
+
+    const jsonString = JSON.stringify(simpleGrid, null, 2);
+
+    const blob = new Blob([jsonString], { type: "application/json" });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
 }
 
 
@@ -64,6 +91,10 @@ export function init(trackName) {
     const reloadbutt = document.querySelector('.reset');
     const savebutt = document.querySelector('.save');
     const loadbutt = document.querySelector('.load');
+    const savetofilebtn = document.querySelector('.savetofile');
+    const loadfromfilebtn = document.querySelector('.loadfromfile');
+    const hidinput = document.querySelector('#fileInput');
+
 
     if (trackName === undefined) {
         trackName = JSON.parse(localStorage.getItem('lastTrack'));
@@ -86,6 +117,44 @@ export function init(trackName) {
     loadbutt.addEventListener('click', () => {
         loadTrackByName(currentTrackName);
     })
+
+    savetofilebtn.addEventListener('click', () => {
+        saveToFile();
+    });
+
+    loadfromfilebtn.addEventListener('click', () => {
+       hidinput.click();
+    });
+
+    hidinput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+            try {
+
+                const jsonString = event.target.result;
+                const loadedData = JSON.parse(jsonString);
+
+                if (!Array.isArray(loadedData) || loadedData.length !== 20 || loadedData[0].length !== 20) {
+                    alert("Error: Invalid track file format!");
+                    return;
+                }
+
+                loadGridFromData(loadedData);
+
+            } catch (err) {
+                console.error(err);
+                alert("File loading failed. Check if it's the correct file.");
+            }
+        };
+
+        reader.readAsText(file);
+
+        e.target.value = '';
+    });
 
     generate();
 
