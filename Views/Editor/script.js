@@ -9,8 +9,17 @@ let cellist = [];
 
 let currentTrackName;
 
+let autoSaveTimer;
+
 
 //UKLADANI
+
+function triggerAutoSave() {
+    clearTimeout(autoSaveTimer);
+    autoSaveTimer = setTimeout(() => {
+        saveToSession();
+    }, 1000);
+}
 
 function saveToSession() {
     const simpleCellist = cellist.map(row =>
@@ -121,7 +130,7 @@ export function init(trackName) {
     const menub = document.querySelector('.mainmenub');
 
     menub.addEventListener('click', () => {
-        saveCurrentTrack(currentTrackName);
+        saveToSession();
     })
 
 
@@ -187,7 +196,9 @@ export function init(trackName) {
 
     generate();
 
-    if (getSavedTrackNames().includes(currentTrackName)) {
+    if (currentTrackName in getSessionStorage()) {
+        loadFromSession();
+    } else if (getSavedTrackNames().includes(currentTrackName)) {
         loadTrackByName(currentTrackName);
     }
 
@@ -208,6 +219,9 @@ export function init(trackName) {
         const newClass = dataObject.cycle();
 
         clickedSquare.className = `cell ${newClass}`;
+
+        //autosave
+        triggerAutoSave();
     });
 
 
