@@ -149,8 +149,8 @@ button:disabled:hover {
 }
 
 .cell {
-    width: 45px;
-    height: 45px;
+    width: 4.5vmin;
+    height: 4.5vmin;
 
     transition: ease 0.1s;
 }

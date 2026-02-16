@@ -3,6 +3,7 @@
 const headerbuttons = document.querySelectorAll('.headerbutton');
 
 const editorbutt = document.querySelector('.editorb');
+const menubutt = document.querySelector('.mainmenub');
 
 async function loadView(viewName, trackName) {
     if (viewName === 'Editor') {
@@ -27,5 +28,14 @@ async function loadView(viewName, trackName) {
         module.init(trackName);
     }
 }
+
+menubutt.addEventListener('click', () => {
+    loadView('MainMenu');
+})
+
+editorbutt.addEventListener('click', () => {
+    loadView('Editor')
+})
+
 
 loadView('MainMenu');
