@@ -1,6 +1,6 @@
 'use strict';
 
-import {getSavedTrackNames, getStorage} from "../../Modules/storage.js";
+import {getSavedTrackNames, getStorage, getSessionStorage} from "../../Modules/storage.js";
 
 
 const TYPE_CLASSES = ['grass', 'road', 'water'];
@@ -11,6 +11,29 @@ let currentTrackName;
 
 
 //UKLADANI
+
+function saveToSession() {
+    const simpleCellist = cellist.map(row =>
+        row.map(cell => cell.type)
+    );
+
+    const db = getStorage();
+
+    db[currentTrackName] = simpleCellist;
+
+    sessionStorage.setItem('saves', JSON.stringify(db));
+}
+
+function loadFromSession() {
+    const db = getSessionStorage();
+    const savedCellist = db[currentTrackName];
+
+    if (!savedCellist) {
+        return;
+    }
+
+    loadGridFromData(savedCellist);
+}
 
 function saveCurrentTrack(trackName) {
 
@@ -95,6 +118,12 @@ export function init(trackName) {
     const loadfromfilebtn = document.querySelector('.loadfromfile');
     const hidinput = document.querySelector('#fileInput');
 
+    const menub = document.querySelector('.mainmenub');
+
+    menub.addEventListener('click', () => {
+        saveCurrentTrack(currentTrackName);
+    })
+
 
     if (trackName === undefined) {
         trackName = JSON.parse(localStorage.getItem('lastTrack'));
@@ -163,7 +192,8 @@ export function init(trackName) {
     }
 
     editor.style.display = 'grid';
-    editor.style.gridTemplateColumns = `repeat(${cellist[0].length}, 45px)`;
+    editor.style.gridTemplateColumns = `repeat(${cellist[0].length}, 1fr)`;
+    editor.style.gridTemplateRows = `repeat(${cellist[0].length}, 1fr)`;
 
     editor.addEventListener('click', (e) => {
         const clickedSquare = e.target;

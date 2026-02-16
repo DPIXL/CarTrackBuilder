@@ -3,6 +3,11 @@ export function getStorage() {
     return raw ? JSON.parse(raw) : {};
 }
 
+export function getSessionStorage() {
+    const raw = sessionStorage.getItem('saves');
+    return raw ? JSON.parse(raw) : {};
+}
+
 export function getSavedTrackNames() {
     const db = getStorage();
     return Object.keys(db);
